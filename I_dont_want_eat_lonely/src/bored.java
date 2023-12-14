@@ -15,11 +15,23 @@ public class Bored extends JPanel {
     private final int title_size_width=180;
     private final int title_size_height=20;
     // image info
-    private ImageIcon image = new ImageIcon();
+    private String image_position="I_dont_want_eat_lonely/image/default.jpg";
+    private ImageIcon image = new ImageIcon(image_position);
     private final int image_position_x=10;
     private final int image_position_y=40;
     private final int image_size_width = 180;
     private final int image_size_height =100;
+    private int image_cut_x1;
+    private int image_cut_x2;
+    private int image_cut_y1;
+    private int image_cut_y2;
+
+    public void setImage(String _position){
+        image_position=_position;
+        image=new ImageIcon(image_position);
+        revalidate();
+        repaint();
+    }
     // bottom group info
     private final int bottomGroup_size_width = 40;
     private final int bottomGroup_size_height = 40;
@@ -28,10 +40,10 @@ public class Bored extends JPanel {
     //guest info
 
 
-    // extra info
+    // extraGuest info
     private JLabel extras = new JLabel();
-    private final int extras_position_x=155;
-    private final int extras_position_y=200;
+    private final int extraGuests_position_x=155;
+    private final int extraGuests_position_y=200;
     public Bored(){ // for text
         this("AAAA");
     }
@@ -40,6 +52,7 @@ public class Bored extends JPanel {
         setLayout(null);
         setPreferredSize(new Dimension(bored_size_width,bored_size_height));
         setVisible(true);
+        
 
         // title set
         title.setText(_title);
@@ -54,22 +67,48 @@ public class Bored extends JPanel {
         extras.setSize(bottomGroup_size_width,bottomGroup_size_height);
         extras.setHorizontalAlignment(JLabel.CENTER);
         extras.setText("+"+Integer.toString(3));
-        extras.setLocation(extras_position_x, extras_position_y);
-        add(extras);
+        extras.setLocation(extraGuests_position_x, extraGuests_position_y);
         extras.setOpaque(true);
-        setBackground(Color.WHITE);
+        extras.setBackground(Color.WHITE);
+        add(extras);
         
+        // detail bored
+        Bored_Detail bored_detail = new Bored_Detail();
+        // click event
+        addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				bored_detail.setVisible(true);
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {}
+
+			@Override
+			public void mouseExited(MouseEvent e) {}
+            
+        });
         
         
     }
     
     public void paintComponent(Graphics g) {
         super.paintComponents(g);
+        
         // bored set
         g.setColor(bored_backColor);
         g.fillRect(0, 0, bored_size_width, bored_size_height);
         // image set
         g.drawImage(image.getImage(), image_position_x, image_position_y, image_size_width, image_size_height, this);
+        System.out.println("AAA");
         // host set
 
         // guset set
@@ -79,8 +118,46 @@ public class Bored extends JPanel {
     
 
     private class Bored_Detail extends JFrame{
+        // bored_Detail_info
+        private final int bored_detail_width=300;
+        private final int bored_detail_height=250;
+
+        // title image info
+        private final int image_position_x=10;
+        private final int image_position_y=10;
+        private final int image_size_width = 280;
+        private final int image_size_height =100;
+
+        // menu info
+        
+
+        // detailInfo_info
+        private JTextArea detailInfo = new JTextArea();
+        private final int detailInfo_x=10;
+        private final int detailInfo_y=120;
+        private final int detailInfo_width = 280;
+        private final int detailInfo_height = 20;
+
         public Bored_Detail(){
-            
+            super(title.getText());
+            setContentPane(new Bored_Detail_panel());
+            setSize(bored_detail_width+10,bored_detail_height+10);
         }
+        private class Bored_Detail_panel extends JPanel{
+            public Bored_Detail_panel(){
+                setPreferredSize(new Dimension(bored_detail_width,bored_detail_height));
+                setLayout(null);
+                // detail describe
+                detailInfo.setLocation(detailInfo_x, detailInfo_y);
+                detailInfo.setSize(detailInfo_width,detailInfo_height);
+                detailInfo.setText("AAA");
+                add(detailInfo);
+            }
+            public void paintComponent(Graphics g) {
+                super.paintComponents(g);
+                g.drawImage(image.getImage(), image_position_x, image_position_y, image_size_width, image_size_height, this);
+            }
+        }
+        
     }
 }
