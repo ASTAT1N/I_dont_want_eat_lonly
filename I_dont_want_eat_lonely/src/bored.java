@@ -15,7 +15,7 @@ public class Bored extends JPanel {
     private final int title_size_width=180;
     private final int title_size_height=20;
     // image info
-    private String image_position="I_dont_want_eat_lonely/image/default.jpg";
+    private String image_position="I_dont_want_eat_lonely/image/default.jpg";//"I_dont_want_eat_lonely/image/test.png";
     private ImageIcon image = new ImageIcon(image_position);
     private final int image_position_x=10;
     private final int image_position_y=40;
@@ -25,10 +25,32 @@ public class Bored extends JPanel {
     private int image_cut_x2;
     private int image_cut_y1;
     private int image_cut_y2;
-
+    public void setImageCut(){
+        int sourceImage_x=image.getIconWidth();
+        int sourceImage_y=image.getIconHeight();
+        if(sourceImage_x/sourceImage_y>image_size_width/image_size_height){ // x is more large
+            // set y
+            image_cut_y1=0;
+            image_cut_y2=sourceImage_y;
+            // set x
+            int change_x = (int)(sourceImage_y/image_size_height*image_size_width);
+            image_cut_x1=(sourceImage_x-change_x)/2;
+            image_cut_x2=image_cut_x1+change_x;
+        }
+        else{ // y is more large
+            // set x
+            image_cut_x1=0;
+            image_cut_x2=sourceImage_x;
+            // set y
+            int change_y = (int)(sourceImage_x/image_size_width*image_size_height);
+            image_cut_y1=(sourceImage_y-change_y)/2;
+            image_cut_y2=image_cut_y1+change_y;
+        }
+    }
     public void setImage(String _position){
         image_position=_position;
         image=new ImageIcon(image_position);
+        setImageCut();
         revalidate();
         repaint();
     }
@@ -72,8 +94,14 @@ public class Bored extends JPanel {
         extras.setBackground(Color.WHITE);
         add(extras);
         
+        // image set
+        setImageCut();
+
+
         // detail bored
         Bored_Detail bored_detail = new Bored_Detail();
+
+
         // click event
         addMouseListener(new MouseListener() {
 
@@ -107,8 +135,14 @@ public class Bored extends JPanel {
         g.setColor(bored_backColor);
         g.fillRect(0, 0, bored_size_width, bored_size_height);
         // image set
-        g.drawImage(image.getImage(), image_position_x, image_position_y, image_size_width, image_size_height, this);
-        System.out.println("AAA");
+        
+        g.drawImage(image.getImage(), image_position_x, image_position_y, image_position_x + image_size_width, image_position_y + image_size_height,
+            image_cut_x1,image_cut_y1,image_cut_x2,image_cut_y2, this);
+        
+        //g.drawImage(image.getImage(), image_position_x, image_position_y, image_size_width, image_size_height,image_cut_x1,image_cut_y2,image_cut_x2,image_cut_y2, this);
+        //image_cut_x1,image_cut_y1,image_cut_x2,image_cut_y2,
+        
+
         // host set
 
         // guset set
@@ -127,7 +161,32 @@ public class Bored extends JPanel {
         private final int image_position_y=10;
         private final int image_size_width = 280;
         private final int image_size_height =100;
-
+        private int image_cut_x1;
+        private int image_cut_x2;
+        private int image_cut_y1;
+        private int image_cut_y2;
+        public void setImageCut(){
+        int sourceImage_x=image.getIconWidth();
+        int sourceImage_y=image.getIconHeight();
+        if(sourceImage_x/sourceImage_y>image_size_width/image_size_height){ // x is more large
+            // set y
+            image_cut_y1=0;
+            image_cut_y2=sourceImage_y;
+            // set x
+            int change_x = (int)sourceImage_y/image_size_height*image_size_width;
+            image_cut_x1=(sourceImage_x-change_x)/2;
+            image_cut_x2=image_cut_x1+change_x;
+        }
+        else{ // y is more large
+            // set x
+            image_cut_x1=0;
+            image_cut_x2=sourceImage_x;
+            // set y
+            int change_y = (int)sourceImage_x/image_size_width*image_size_height;
+            image_cut_y1=(sourceImage_y-change_y)/2;
+            image_cut_y2=image_cut_y1+change_y;
+        }
+    }
         // menu info
         
 
@@ -142,6 +201,7 @@ public class Bored extends JPanel {
             super(title.getText());
             setContentPane(new Bored_Detail_panel());
             setSize(bored_detail_width+10,bored_detail_height+10);
+
         }
         private class Bored_Detail_panel extends JPanel{
             public Bored_Detail_panel(){
@@ -155,7 +215,10 @@ public class Bored extends JPanel {
             }
             public void paintComponent(Graphics g) {
                 super.paintComponents(g);
-                g.drawImage(image.getImage(), image_position_x, image_position_y, image_size_width, image_size_height, this);
+                setImageCut();
+                //g.drawImage(image.getImage(), image_position_x, image_position_y, image_size_width, image_size_height, this);
+                g.drawImage(image.getImage(), image_position_x, image_position_y, image_position_x + image_size_width, image_position_y + image_size_height,
+                    image_cut_x1,image_cut_y1,image_cut_x2,image_cut_y2, this);
             }
         }
         
