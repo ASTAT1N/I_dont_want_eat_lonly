@@ -15,7 +15,7 @@ public class Bored extends JPanel {
     private final int title_size_width=180;
     private final int title_size_height=20;
     // image info
-    private String image_position="I_dont_want_eat_lonely/image/default.jpg";//"I_dont_want_eat_lonely/image/test.png";
+    private String image_position="image/default.jpg";//"I_dont_want_eat_lonely/image/test.png";
     private ImageIcon image = new ImageIcon(image_position);
     private final int image_position_x=10;
     private final int image_position_y=40;
