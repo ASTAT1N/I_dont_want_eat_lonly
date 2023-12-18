@@ -29,20 +29,27 @@ public class client_login extends JFrame{
 
         // server connect
         connectToServer();
-        try {
-            out.write("HELLO\n");
-            out.flush();
-        } catch (IOException e) {
-            // TODO: handle exception
-        }
+        
         
 
         toWindow.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new client_window("AAAAA");
-                setVisible(false);
+                try {
+                    out.write("Hello\n");
+                    out.flush();
+                    String msg = in.readLine();
+                    if(msg.equals("LoginCorrect")){
+                        new client_window("AAAAA");
+                        setVisible(false);
+                    }
+
+                } catch (IOException er) {
+                    er.printStackTrace();
+                    // TODO: handle exception
+                }
+				
 			}
             
         });

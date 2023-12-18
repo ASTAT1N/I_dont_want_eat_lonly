@@ -35,7 +35,14 @@ public class server_window extends JFrame {
                     msg=in.readLine();
                     logs.append(msg+"\n");
                     // process
-                    out.write(msg+"\n");
+                    
+                    if(msg.equals("Hello")){
+                        // login
+                        
+                        out.write("LoginCorrect"+"\n");
+                        out.flush();
+                    }
+                    
 
                 } catch (IOException e) {
                     logs.append("disconnect\n");
