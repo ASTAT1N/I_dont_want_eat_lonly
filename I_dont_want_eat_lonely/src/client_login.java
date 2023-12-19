@@ -14,6 +14,39 @@ public class client_login extends JFrame{
 	static public void main(String[] args){
         new client_login();
     }
+    // window info
+    private final int window_width = 300;
+    private final int window_height = 350;
+
+    // IDField info
+    private JLabel IDword = new JLabel("ID");
+    private final int IDword_width = 60;
+    private final int IDword_height = 20;
+    private final int IDword_x = 10;
+    private final int IDword_y = 10;
+    private JTextField IDField = new JTextField(30);
+    private final int IDField_width = 200;
+    private final int IDField_height = 20;
+    private final int IDField_x = 80;
+    private final int IDField_y = IDword_y;
+
+    // PWField info
+    private JLabel PWword = new JLabel("Password");
+    private final int PWword_x = IDword_x;
+    private final int PWword_y = 40;
+    private JPasswordField PWField = new JPasswordField(30);
+    private final int PWField_x = IDField_x;
+    private final int PWField_y = PWword_y;
+
+
+    // loginButton info
+    private JButton loginButton = new JButton("log in");
+    private final int loginButton_width = 120;
+    private final int loginButton_height = 40;
+    private final int loginButton_x = 160;
+    private final int loginButton_y = 70;
+    
+
     // server info
     private String serverAddress="localhost";
     private BufferedReader in = null;
@@ -23,16 +56,33 @@ public class client_login extends JFrame{
         super("Log-in");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container c = getContentPane();
-        setSize(300,350);
-
-        JButton toWindow = new JButton("log in");
-
-        // server connect
-        connectToServer();
+        c.setLayout(null);
         
-        
+        setSize(window_width,window_height);
 
-        toWindow.addActionListener(new ActionListener() {
+        // add ID and PW
+        IDword.setSize(IDword_width,IDword_height);
+        IDword.setLocation(IDword_x, IDword_y);
+        c.add(IDword);
+        
+        IDField.setSize(IDField_width, IDField_height);
+        IDField.setLocation(IDField_x, IDField_y);
+        c.add(IDField);
+
+        PWword.setSize(IDword_width,IDword_height);
+        PWword.setLocation(PWword_x,PWword_y);
+        c.add(PWword);
+
+        PWField.setSize(IDField_width, IDField_height);
+        PWField.setLocation(PWField_x, PWField_y);
+        PWField.setEchoChar('*');
+        c.add(PWField);
+
+
+        // add loginButton
+        loginButton.setSize(loginButton_width,loginButton_height);
+        loginButton.setLocation(loginButton_x, loginButton_y);
+        loginButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -53,8 +103,35 @@ public class client_login extends JFrame{
 			}
             
         });
-        c.add(toWindow);
+        c.add(loginButton);
+
+
+        // add component listener
+        addComponentListener(new ComponentListener() {
+            // force size
+			@Override
+			public void componentResized(ComponentEvent e) {
+				Component wind = (Component)e.getSource();
+                wind.setSize(window_width, window_height);
+				
+			}
+
+			@Override
+			public void componentMoved(ComponentEvent e) {}
+
+			@Override
+			public void componentShown(ComponentEvent e) {}
+
+			@Override
+			public void componentHidden(ComponentEvent e) {}
+            
+        });
+        
+        // server connect
+        connectToServer();
         setVisible(true);
+        //loginButton.doClick();
+
     }
     // connect to server
     
