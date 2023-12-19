@@ -25,6 +25,7 @@ public class user_profile{
                 Character c = (char)msC;
                 msStr = msStr + (c.toString());
             }
+            in.close();
             StringTokenizer strTok = new StringTokenizer(msStr,";");
             name=strTok.nextToken();
             image_position=strTok.nextToken();
