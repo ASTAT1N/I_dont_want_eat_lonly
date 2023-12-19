@@ -87,7 +87,8 @@ public class client_login extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
                 try {
-                    out.write("Hello\n");
+
+                    out.write("login;"+IDField.getText()+";"+String.valueOf(PWField.getPassword())+";\n");
                     out.flush();
                     String msg = in.readLine();
                     if(msg.equals("LoginCorrect")){

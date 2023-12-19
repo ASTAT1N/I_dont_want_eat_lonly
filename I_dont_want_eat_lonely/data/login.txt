@@ -1,2 +1,2 @@
-sudo;boo
-admin;1234
+admin 1234
+sudo 1234

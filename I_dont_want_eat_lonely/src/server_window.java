@@ -1,14 +1,14 @@
 
 import javax.swing.*;
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import java.awt.event.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.util.Map.Entry;
+
 public class server_window extends JFrame {
     static public void main(String[] arges){
         new server_window();
@@ -32,7 +32,7 @@ public class server_window extends JFrame {
                 e.printStackTrace();
             }
         }
-
+        
         public void run(){
             String msg=null;
             while (true) {
@@ -45,8 +45,14 @@ public class server_window extends JFrame {
                     String commend = msgToken.nextToken(); 
                     if(commend.equals("login")){
                         // login
-                        
-                        out.write("LoginCorrect"+"\n");
+                        String ID = msgToken.nextToken();
+                        String PW = msgToken.nextToken();
+                        if(loginManager.loginCheck(ID, PW)){
+                            out.write("LoginCorrect"+"\n");
+                        }
+                        else{
+                            out.write("LoginFail"+"\n");
+                        }
                         out.flush();
                     }
                     
@@ -99,6 +105,8 @@ public class server_window extends JFrame {
 			public void componentHidden(ComponentEvent e) {}
             
         });
+        
+
         // connect
         ServerSocket listener=null;
         Socket socket=null;
@@ -106,7 +114,7 @@ public class server_window extends JFrame {
             listener = new ServerSocket(9999);
             while (true) {
                 socket = listener.accept();
-                logs.append("Connected");
+                logs.append("Connected\n");
                 new communicateThread(socket).start();
             }
         } catch (IOException e) {
@@ -124,6 +132,65 @@ public class server_window extends JFrame {
             }
         }catch(IOException e){
             e.printStackTrace();
+        }
+
+        
+        
+    }
+    private LoginMenager loginManager = new LoginMenager();
+    private class LoginMenager {
+        private HashMap<String,String> DB = new HashMap<>(); // ID, PW
+        private String loginDataLocation = "data/login.txt";
+        public LoginMenager(){
+            try {
+                FileInputStream fin = new FileInputStream(loginDataLocation);
+                InputStreamReader in=new InputStreamReader(fin,"UTF-8");
+                //FileOutputStream fout = new FileOutputStream(loginDataLocation);
+                //out=new OutputStreamWriter(fout,"UTF-8");
+                int msC;
+                String msStr="";
+                while ((msC=in.read())!=-1) {
+                    Character c = (char)msC;
+                    if(c=='\n'){
+                        StringTokenizer strTok = new StringTokenizer(msStr);
+                        String ID = strTok.nextToken();
+                        String PW = strTok.nextToken();
+                        DB.put(ID, PW);
+                        
+                        msStr="";
+                    }
+                    else{
+                        msStr = msStr + (c.toString());
+
+                    }
+                }
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
+        }
+        public boolean loginCheck(String _ID, String _PW){
+            return DB.get(_ID).equals(_PW);
+        }
+        public void loginSave(){
+            try {
+                FileOutputStream fout = new FileOutputStream(loginDataLocation);
+                OutputStreamWriter out=new OutputStreamWriter(fout,"UTF-8");
+                for(Entry<String, String> el : DB.entrySet()){
+                    out.write(el.getKey()+" "+el.getValue()+"\n");
+                }
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        public boolean createAccount(String _ID, String _PW){
+            if(DB.get(_ID).equals(null)){
+                return false;
+            }
+            DB.put(_ID, _PW);
+            return true;
         }
         
     }
