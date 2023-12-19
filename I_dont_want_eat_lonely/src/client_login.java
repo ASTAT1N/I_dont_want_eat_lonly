@@ -2,11 +2,15 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
 import javax.swing.*;
 
@@ -18,22 +22,59 @@ public class client_login extends JFrame{
     private final int window_width = 300;
     private final int window_height = 350;
 
+    // serverSet info
+    
+    JComboBox<String> serverSelect = null;
+    private final String serverDBAddr = "data/server.txt";
+    private final int serverSelect_width = 270;
+    private final int serverSelect_height = 20;
+    private final int serverSelect_x = 10;
+    private final int serverSelect_y = 10;
+    private Vector<String> getServerSet(){
+        Vector<String> serverSet = new Vector<>();
+        try {
+            FileInputStream fin = new FileInputStream(serverDBAddr);
+            InputStreamReader in=new InputStreamReader(fin,"UTF-8");
+            int msC;
+            String msStr="";
+            while ((msC=in.read())!=-1) {
+                Character c = (char)msC;
+                if(c=='\n'){
+                    
+                    serverSet.add(msStr);
+                    
+                    msStr="";
+                }
+                else{
+                    msStr = msStr + (c.toString());
+
+                }
+            }
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return serverSet;
+    }
+
+
+    
     // IDField info
     private JLabel IDword = new JLabel("ID");
     private final int IDword_width = 60;
     private final int IDword_height = 20;
     private final int IDword_x = 10;
-    private final int IDword_y = 10;
+    private final int IDword_y = serverSelect_y+serverSelect_height+10;
     private JTextField IDField = new JTextField(30);
     private final int IDField_width = 200;
     private final int IDField_height = 20;
-    private final int IDField_x = 80;
+    private final int IDField_x = IDword_x+IDword_width+10;
     private final int IDField_y = IDword_y;
 
     // PWField info
     private JLabel PWword = new JLabel("Password");
     private final int PWword_x = IDword_x;
-    private final int PWword_y = 40;
+    private final int PWword_y = IDword_y+IDword_height+10;
     private JPasswordField PWField = new JPasswordField(30);
     private final int PWField_x = IDField_x;
     private final int PWField_y = PWword_y;
@@ -44,11 +85,11 @@ public class client_login extends JFrame{
     private final int loginButton_width = 120;
     private final int loginButton_height = 40;
     private final int loginButton_x = 160;
-    private final int loginButton_y = 70;
+    private final int loginButton_y = PWword_y+IDField_height+10;
     
 
     // server info
-    private String serverAddress="localhost";
+    private String serverAddress= "localhost:9999";
     private BufferedReader in = null;
     private BufferedWriter out = null;
 
@@ -59,6 +100,21 @@ public class client_login extends JFrame{
         c.setLayout(null);
         
         setSize(window_width,window_height);
+        // add server select
+        serverSelect = new JComboBox<>(getServerSet());
+        serverSelect.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JComboBox<String> comBox = (JComboBox<String>)e.getSource();
+                serverAddress = (String)comBox.getSelectedItem();
+                connectToServer();
+            }
+            
+        });
+        serverSelect.setSize(serverSelect_width,serverSelect_height);
+        serverSelect.setLocation(serverSelect_x, serverSelect_y);
+        c.add(serverSelect);
 
         // add ID and PW
         IDword.setSize(IDword_width,IDword_height);
@@ -95,10 +151,12 @@ public class client_login extends JFrame{
                         new client_window(IDField.getText());
                         setVisible(false);
                     }
-
+                    else{
+                        JOptionPane.showMessageDialog(null, "Wrong password!","Fail",JOptionPane.ERROR_MESSAGE);
+                        PWField.setText("");
+                    }
                 } catch (IOException er) {
                     er.printStackTrace();
-                    // TODO: handle exception
                 }
 				
 			}
@@ -137,7 +195,11 @@ public class client_login extends JFrame{
     private void connectToServer(){
         Socket socket;
         try{
-            socket = new Socket(serverAddress,9999);
+            StringTokenizer addrTok = new StringTokenizer(serverAddress);
+            addrTok = new StringTokenizer(addrTok.nextToken(),":");
+            String addr = addrTok.nextToken();
+            int port = Integer.valueOf(addrTok.nextToken());
+            socket = new Socket(addr,port);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         }catch(UnknownHostException e){

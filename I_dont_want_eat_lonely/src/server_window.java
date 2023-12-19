@@ -146,8 +146,6 @@ public class server_window extends JFrame {
             try {
                 FileInputStream fin = new FileInputStream(loginDataLocation);
                 InputStreamReader in=new InputStreamReader(fin,"UTF-8");
-                //FileOutputStream fout = new FileOutputStream(loginDataLocation);
-                //out=new OutputStreamWriter(fout,"UTF-8");
                 int msC;
                 String msStr="";
                 while ((msC=in.read())!=-1) {
