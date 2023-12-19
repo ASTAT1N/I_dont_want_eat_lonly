@@ -7,17 +7,18 @@ import java.util.StringTokenizer;
 
 import javax.swing.*;
 
-public class user_profile{
-    private String image_position = "/image/default.jpg";
+public class user_profile {
+    private String image_position = "image/default.jpg";
     public ImageIcon image = new ImageIcon(image_position);
     private String ID = null;
-    private String name = null;
-    public user_profile(){
-        ID="admin";
+    public String name = null;
+    public user_profile(String _ID){
+        ID=_ID;
+        getInfo();
     }
     private void getInfo(){
         try{
-            FileInputStream fin = new FileInputStream(ID+".txt");
+            FileInputStream fin = new FileInputStream("data/"+ID+".txt");
             InputStreamReader in=new InputStreamReader(fin,"UTF-8");
             int msC;
             String msStr="";

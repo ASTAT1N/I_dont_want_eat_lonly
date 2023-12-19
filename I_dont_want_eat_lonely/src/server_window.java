@@ -74,6 +74,7 @@ public class server_window extends JFrame {
     private final int logs_height=window_height;
     
     public server_window(){
+        super("server window");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(window_width,window_height);
         Container c=getContentPane();
@@ -171,6 +172,9 @@ public class server_window extends JFrame {
             
         }
         public boolean loginCheck(String _ID, String _PW){
+            if(DB.get(_ID)==null){
+                return false;
+            }
             return DB.get(_ID).equals(_PW);
         }
         public void loginSave(){

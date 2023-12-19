@@ -92,7 +92,7 @@ public class client_login extends JFrame{
                     out.flush();
                     String msg = in.readLine();
                     if(msg.equals("LoginCorrect")){
-                        new client_window("AAAAA");
+                        new client_window(IDField.getText());
                         setVisible(false);
                     }
 
