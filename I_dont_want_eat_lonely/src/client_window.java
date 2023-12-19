@@ -20,7 +20,6 @@ public class client_window extends JFrame{
         
         // compoenet add
         c.add(new Bored());
-    
 
         // show component
         setVisible(true);

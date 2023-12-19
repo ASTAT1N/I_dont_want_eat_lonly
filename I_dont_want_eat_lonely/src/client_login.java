@@ -105,8 +105,6 @@ public class client_login extends JFrame{
             
         });
         c.add(loginButton);
-
-
         // add component listener
         addComponentListener(new ComponentListener() {
             // force size
