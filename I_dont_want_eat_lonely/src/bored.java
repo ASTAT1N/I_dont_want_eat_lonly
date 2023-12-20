@@ -200,7 +200,7 @@ public class Bored extends JPanel {
             super(title.getText());
             setContentPane(new Bored_Detail_panel());
             setSize(bored_detail_width+10,bored_detail_height+10);
-            Container c =getContentPane();
+            addComponentListener(new force_window_size(bored_detail_width, bored_detail_height));
         }
         private class Bored_Detail_panel extends JPanel{
             public Bored_Detail_panel(){

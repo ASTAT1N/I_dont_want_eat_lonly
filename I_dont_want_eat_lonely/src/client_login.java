@@ -171,25 +171,7 @@ public class client_login extends JFrame{
         });
         c.add(loginButton);
         // add component listener
-        addComponentListener(new ComponentListener() {
-            // force size
-			@Override
-			public void componentResized(ComponentEvent e) {
-				Component wind = (Component)e.getSource();
-                wind.setSize(window_width, window_height);
-				
-			}
-
-			@Override
-			public void componentMoved(ComponentEvent e) {}
-
-			@Override
-			public void componentShown(ComponentEvent e) {}
-
-			@Override
-			public void componentHidden(ComponentEvent e) {}
-            
-        });
+        addComponentListener(new force_window_size(window_width, window_height));
         
         // set focus
         setFocusable(true);

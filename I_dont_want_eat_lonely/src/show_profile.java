@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class show_profile extends JFrame{
     // window info
-    private final int window_width = 200;
+    private final int window_width = 300;
     private final int window_height = 140;
 
     // user image info
@@ -29,24 +29,7 @@ public class show_profile extends JFrame{
         setContentPane(new show_profile_panel());
         setSize(window_width,window_height);
         // add component listener
-        addComponentListener(new ComponentListener() {
-            // force size
-			@Override
-			public void componentResized(ComponentEvent e) {
-				Component wind = (Component)e.getSource();
-                wind.setSize(window_width, window_height);
-			}
-
-			@Override
-			public void componentMoved(ComponentEvent e) {}
-
-			@Override
-			public void componentShown(ComponentEvent e) {}
-
-			@Override
-			public void componentHidden(ComponentEvent e) {}
-            
-        });
+        addComponentListener(new force_window_size(window_width, window_height));
         setVisible(true);
         
     }
