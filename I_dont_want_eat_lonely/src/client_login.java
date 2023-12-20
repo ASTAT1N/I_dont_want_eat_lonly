@@ -100,6 +100,10 @@ public class client_login extends JFrame{
         c.setLayout(null);
         
         setSize(window_width,window_height);
+
+        // add KeyListener
+        LoginKeyListener loginKeyListener = new LoginKeyListener();
+        addKeyListener(loginKeyListener);
         // add server select
         serverSelect = new JComboBox<>(getServerSet());
         serverSelect.addActionListener(new ActionListener() {
@@ -114,6 +118,7 @@ public class client_login extends JFrame{
         });
         serverSelect.setSize(serverSelect_width,serverSelect_height);
         serverSelect.setLocation(serverSelect_x, serverSelect_y);
+        serverSelect.addKeyListener(loginKeyListener);
         c.add(serverSelect);
 
         // add ID and PW
@@ -123,6 +128,7 @@ public class client_login extends JFrame{
         
         IDField.setSize(IDField_width, IDField_height);
         IDField.setLocation(IDField_x, IDField_y);
+        IDField.addKeyListener(loginKeyListener);
         c.add(IDField);
 
         PWword.setSize(IDword_width,IDword_height);
@@ -132,6 +138,7 @@ public class client_login extends JFrame{
         PWField.setSize(IDField_width, IDField_height);
         PWField.setLocation(PWField_x, PWField_y);
         PWField.setEchoChar('*');
+        PWField.addKeyListener(loginKeyListener);
         c.add(PWField);
 
 
@@ -184,6 +191,10 @@ public class client_login extends JFrame{
             
         });
         
+        // set focus
+        setFocusable(true);
+        requestFocus();
+
         // server connect
         connectToServer();
         setVisible(true);
@@ -207,5 +218,23 @@ public class client_login extends JFrame{
         }catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    // keyBored listener
+    class LoginKeyListener implements KeyListener{
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if(e.getKeyCode()==KeyEvent.VK_ENTER){
+                 
+                loginButton.doClick();
+                System.out.println("AAA");
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {}
+
+        @Override
+        public void keyTyped(KeyEvent e) {}     
     }
 }
