@@ -42,7 +42,8 @@ public class client_window extends JFrame{
         jMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("BBB");
+                new show_profile(user);
+                System.out.println("AAA");
             }
             
         });

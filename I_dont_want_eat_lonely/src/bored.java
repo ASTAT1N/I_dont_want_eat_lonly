@@ -27,7 +27,7 @@ public class Bored extends JPanel {
     public void setImageCut(){
         int sourceImage_x=image.getIconWidth();
         int sourceImage_y=image.getIconHeight();
-        if(sourceImage_x/sourceImage_y>image_size_width/image_size_height){ // x is more large
+        if((float)sourceImage_x/sourceImage_y>(float)image_size_width/image_size_height){ // x is more large
             // set y
             image_cut_y1=0;
             image_cut_y2=sourceImage_y;
@@ -164,28 +164,28 @@ public class Bored extends JPanel {
         private int image_cut_x2;
         private int image_cut_y1;
         private int image_cut_y2;
-        public void setImageCut(){
-        int sourceImage_x=image.getIconWidth();
-        int sourceImage_y=image.getIconHeight();
-        if(sourceImage_x/sourceImage_y>image_size_width/image_size_height){ // x is more large
-            // set y
-            image_cut_y1=0;
-            image_cut_y2=sourceImage_y;
-            // set x
-            int change_x = (int)sourceImage_y/image_size_height*image_size_width;
-            image_cut_x1=(sourceImage_x-change_x)/2;
-            image_cut_x2=image_cut_x1+change_x;
+        private void setImageCut(){
+            int sourceImage_x=image.getIconWidth();
+            int sourceImage_y=image.getIconHeight();
+            if((float)sourceImage_x/sourceImage_y>(float)image_size_width/image_size_height){ // x is more large
+                // set y
+                image_cut_y1=0;
+                image_cut_y2=sourceImage_y;
+                // set x
+                int change_x = (int)sourceImage_y/image_size_height*image_size_width;
+                image_cut_x1=(sourceImage_x-change_x)/2;
+                image_cut_x2=image_cut_x1+change_x;
+            }
+            else{ // y is more large
+                // set x
+                image_cut_x1=0;
+                image_cut_x2=sourceImage_x;
+                // set y
+                int change_y = (int)sourceImage_x/image_size_width*image_size_height;
+                image_cut_y1=(sourceImage_y-change_y)/2;
+                image_cut_y2=image_cut_y1+change_y;
+            }
         }
-        else{ // y is more large
-            // set x
-            image_cut_x1=0;
-            image_cut_x2=sourceImage_x;
-            // set y
-            int change_y = (int)sourceImage_x/image_size_width*image_size_height;
-            image_cut_y1=(sourceImage_y-change_y)/2;
-            image_cut_y2=image_cut_y1+change_y;
-        }
-    }
         // menu info
         
 
