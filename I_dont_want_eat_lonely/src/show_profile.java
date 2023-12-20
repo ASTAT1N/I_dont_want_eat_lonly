@@ -17,11 +17,11 @@ public class show_profile extends JFrame{
     private JLabel userName = null;
     private final int userName_position_x = image_position_x+image_size_width+10;
     private final int userName_position_y=image_position_y;
-    private final int userName_size_width = 90;
+    private final int userName_size_width = 80;
     private final int userName_size_height = 20;
 
     // user info
-    private user_profile user = null;
+    protected user_profile user = null;
     public show_profile(user_profile _user){
         super(_user.name);
         user=_user;

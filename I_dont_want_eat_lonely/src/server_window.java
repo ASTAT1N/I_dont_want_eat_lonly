@@ -15,7 +15,7 @@ public class server_window extends JFrame {
     }
     // window info
     private final int window_width=600;
-    private final int window_height=300;
+    private final int window_height=300+30;
 
 
     // log info

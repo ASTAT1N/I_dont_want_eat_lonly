@@ -1,16 +1,19 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+
 import javax.swing.*;
 
 public class client_window extends JFrame{
 
     static public void main(String[] args){
-        new client_window("admin");
+        new client_window("admin",null,null);
     }
     // user info
     private user_profile user = null;
 
-    public client_window(String _ID){
+    public client_window(String _ID, BufferedReader _in, BufferedWriter _out){
         // set user info
         user = new user_profile(_ID);
 
@@ -43,7 +46,6 @@ public class client_window extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 new show_profile(user);
-                System.out.println("AAA");
             }
             
         });
@@ -52,7 +54,7 @@ public class client_window extends JFrame{
         jMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("BBB");
+                new change_profile(user,_out);
             }
             
         });
@@ -72,7 +74,6 @@ public class client_window extends JFrame{
 
         setJMenuBar(mmb);
 
-        
         // compoenet add
         c.add(new Bored());
 

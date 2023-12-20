@@ -194,13 +194,13 @@ public class Bored extends JPanel {
         private final int detailInfo_x=10;
         private final int detailInfo_y=120;
         private final int detailInfo_width = 280;
-        private final int detailInfo_height = 20;
+        private final int detailInfo_height = 60;
 
         public Bored_Detail(){
             super(title.getText());
             setContentPane(new Bored_Detail_panel());
             setSize(bored_detail_width+10,bored_detail_height+10);
-
+            Container c =getContentPane();
         }
         private class Bored_Detail_panel extends JPanel{
             public Bored_Detail_panel(){
@@ -210,7 +210,13 @@ public class Bored extends JPanel {
                 detailInfo.setLocation(detailInfo_x, detailInfo_y);
                 detailInfo.setSize(detailInfo_width,detailInfo_height);
                 detailInfo.setText("AAA");
-                add(detailInfo);
+                
+                //add(detailInfo);
+                //add(new JScrollPane(detailInfo));
+                JScrollPane scrollDetailInfo = new JScrollPane(detailInfo);
+                scrollDetailInfo.setLocation(detailInfo_x, detailInfo_y);
+                scrollDetailInfo.setSize(detailInfo_width,detailInfo_height);
+                add(scrollDetailInfo);
             }
             public void paintComponent(Graphics g) {
                 super.paintComponents(g);
