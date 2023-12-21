@@ -39,16 +39,23 @@ public class Bored extends JPanel {
     private final int bottomGroup_size_width = 40;
     private final int bottomGroup_size_height = 40;
     // host info
+    user_profile host = new user_profile("admin");
+    private final int host_position_x = 10;
+    private final int host_position_y = 200;
+    
+
+    
+    // extraGuest info
+    public int extraCount=0;
+    private JLabel extras = new JLabel();
+    private final int extraGuests_position_x=155;
+    private final int extraGuests_position_y=200;
+
 
     // detail info
     private String detail_data = new String("tests");
 
-
-    // extraGuest info
-    private JLabel extras = new JLabel();
-    private final int extraGuests_position_x=155;
-    private final int extraGuests_position_y=200;
-    public Bored(){ // for text
+    public Bored(){ // for test
         this("AAAA");
     }
     public Bored(String _title){
@@ -70,7 +77,7 @@ public class Bored extends JPanel {
         //extras set
         extras.setSize(bottomGroup_size_width,bottomGroup_size_height);
         extras.setHorizontalAlignment(JLabel.CENTER);
-        extras.setText("+"+Integer.toString(3));
+        extras.setText("+"+Integer.toString(extraCount));
         extras.setLocation(extraGuests_position_x, extraGuests_position_y);
         extras.setOpaque(true);
         extras.setBackground(Color.WHITE);
@@ -121,11 +128,10 @@ public class Bored extends JPanel {
         g.setColor(bored_backColor);
         g.fillRect(0, 0, bored_size_width, bored_size_height);
         // image set
-        
         g.drawImage(image.getImage(), image_position_x, image_position_y, image_position_x + image_size_width, image_position_y + image_size_height,
             image_cut_x1,image_cut_y1,image_cut_x2,image_cut_y2, this);
-        
-        //g.drawImage(image.getImage(), image_position_x, image_position_y, image_size_width, image_size_height,image_cut_x1,image_cut_y2,image_cut_x2,image_cut_y2, this);
+        g.drawImage(host.image.getImage(), host_position_x, host_position_y, host_position_x+bottomGroup_size_width,host_position_y+bottomGroup_size_height,
+            host.image_cut_x1,host.image_cut_y1,host.image_cut_x2,host.image_cut_y2, this);
         //image_cut_x1,image_cut_y1,image_cut_x2,image_cut_y2,
         
 
