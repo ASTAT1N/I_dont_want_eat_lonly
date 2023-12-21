@@ -1,9 +1,7 @@
-import java.awt.Container;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+import java.awt.*;
+import java.io.*;
 
-import javax.swing.JButton;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 public class change_profile extends show_profile {
 

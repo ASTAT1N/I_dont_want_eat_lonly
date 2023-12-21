@@ -22,34 +22,16 @@ public class user_profile {
     public int image_cut_x2 = 100;
     public int image_cut_y1 = 0;
     public int image_cut_y2 = 100;
-    private void setImageCut(){
-        int sourceImage_x=image.getIconWidth();
-        int sourceImage_y=image.getIconHeight();
-        System.out.println(sourceImage_x+" A "+sourceImage_y);
-        if((float)sourceImage_x/sourceImage_y>(float)image_width/image_height){ // x is more large
-            // set y
-            image_cut_y1=0;
-            image_cut_y2=sourceImage_y;
-            // set x
-            int change_x = (int)sourceImage_y/image_height*image_width;
-            image_cut_x1=(sourceImage_x-change_x)/2;
-            image_cut_x2=image_cut_x1+change_x;
-        }
-        else{ // y is more large
-            // set x
-            image_cut_x1=0;
-            image_cut_x2=sourceImage_x;
-            // set y
-            int change_y = (int)sourceImage_x/image_width*image_height;
-            image_cut_y1=(sourceImage_y-change_y)/2;
-            image_cut_y2=image_cut_y1+change_y;
-        }
-    }
+    
     
     public user_profile(String _ID){
         ID=_ID;
         getInfo();
-        setImageCut();
+        int[] ms = util.setImageCut(image,image_width,image_height);
+        image_cut_x1=ms[0];
+        image_cut_x2=ms[1];
+        image_cut_y1=ms[2];
+        image_cut_y2=ms[3];
     }
     private void getInfo(){
         try{

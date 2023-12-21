@@ -24,32 +24,14 @@ public class Bored extends JPanel {
     private int image_cut_x2;
     private int image_cut_y1;
     private int image_cut_y2;
-    public void setImageCut(){
-        int sourceImage_x=image.getIconWidth();
-        int sourceImage_y=image.getIconHeight();
-        if((float)sourceImage_x/sourceImage_y>(float)image_size_width/image_size_height){ // x is more large
-            // set y
-            image_cut_y1=0;
-            image_cut_y2=sourceImage_y;
-            // set x
-            int change_x = (int)(sourceImage_y/image_size_height*image_size_width);
-            image_cut_x1=(sourceImage_x-change_x)/2;
-            image_cut_x2=image_cut_x1+change_x;
-        }
-        else{ // y is more large
-            // set x
-            image_cut_x1=0;
-            image_cut_x2=sourceImage_x;
-            // set y
-            int change_y = (int)(sourceImage_x/image_size_width*image_size_height);
-            image_cut_y1=(sourceImage_y-change_y)/2;
-            image_cut_y2=image_cut_y1+change_y;
-        }
-    }
     public void setImage(String _position){
         image_position=_position;
         image=new ImageIcon(image_position);
-        setImageCut();
+        int[] ms = util.setImageCut(image,image_size_width,image_size_height);
+        image_cut_x1=ms[0];
+        image_cut_x2=ms[1];
+        image_cut_y1=ms[2];
+        image_cut_y2=ms[3];
         revalidate();
         repaint();
     }
@@ -93,8 +75,12 @@ public class Bored extends JPanel {
         extras.setBackground(Color.WHITE);
         add(extras);
         
-        // image set
-        setImageCut();
+        // image cut set
+        int[] ms = util.setImageCut(image,image_size_width,image_size_height);
+        image_cut_x1=ms[0];
+        image_cut_x2=ms[1];
+        image_cut_y1=ms[2];
+        image_cut_y2=ms[3];
 
 
         // detail bored
@@ -164,28 +150,6 @@ public class Bored extends JPanel {
         private int image_cut_x2;
         private int image_cut_y1;
         private int image_cut_y2;
-        private void setImageCut(){
-            int sourceImage_x=image.getIconWidth();
-            int sourceImage_y=image.getIconHeight();
-            if((float)sourceImage_x/sourceImage_y>(float)image_size_width/image_size_height){ // x is more large
-                // set y
-                image_cut_y1=0;
-                image_cut_y2=sourceImage_y;
-                // set x
-                int change_x = (int)sourceImage_y/image_size_height*image_size_width;
-                image_cut_x1=(sourceImage_x-change_x)/2;
-                image_cut_x2=image_cut_x1+change_x;
-            }
-            else{ // y is more large
-                // set x
-                image_cut_x1=0;
-                image_cut_x2=sourceImage_x;
-                // set y
-                int change_y = (int)sourceImage_x/image_size_width*image_size_height;
-                image_cut_y1=(sourceImage_y-change_y)/2;
-                image_cut_y2=image_cut_y1+change_y;
-            }
-        }
         // menu info
         
 
@@ -220,7 +184,11 @@ public class Bored extends JPanel {
             }
             public void paintComponent(Graphics g) {
                 super.paintComponents(g);
-                setImageCut();
+                int[] ms = util.setImageCut(image,image_size_width,image_size_height);
+                image_cut_x1=ms[0];
+                image_cut_x2=ms[1];
+                image_cut_y1=ms[2];
+                image_cut_y2=ms[3];
                 //g.drawImage(image.getImage(), image_position_x, image_position_y, image_size_width, image_size_height, this);
                 g.drawImage(image.getImage(), image_position_x, image_position_y, image_position_x + image_size_width, image_position_y + image_size_height,
                     image_cut_x1,image_cut_y1,image_cut_x2,image_cut_y2, this);
