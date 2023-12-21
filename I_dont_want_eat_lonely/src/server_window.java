@@ -60,8 +60,36 @@ public class server_window extends JFrame {
                         String bored_name = msgToken.nextToken();
                         String host_name = msgToken.nextToken();
                         String bored_detail = msgToken.nextToken();
-                        boredInfoSaves.put(bored_name, new BoredInfo(bored_name, host_name, bored_detail));
+                        String image_addr = msgToken.nextToken();
+                        boredInfoSaves.put(bored_name, new BoredInfo(bored_name, host_name, bored_detail, image_addr));
                         anounce(msg);
+                    }
+                    if (commend.equals("join")) {
+                        // join
+                        String host_name = msgToken.nextToken();
+                        String bored_name = msgToken.nextToken();
+                        BoredInfo ms = boredInfoSaves.get(bored_name);
+                        if (ms != null) {
+                            if (!ms.host_ID.equals(host_name)) {
+                                if (ms.joinedGuys.get(host_name) == null) {
+                                    ms.members++;
+                                    ms.joinedGuys.put(host_name, 1);
+                                    anounce("join;" + bored_name);
+                                }
+                            }
+                        }
+                    }
+                    if (commend.equals("changeID")) {
+                        String user_ID = msgToken.nextToken();
+                        String user_name = msgToken.nextToken();
+                        String imageAddr = msgToken.nextToken();
+                        FileOutputStream sourFile = new FileOutputStream("data/" + user_ID + ".txt");
+                        OutputStreamWriter sourFileStream = new OutputStreamWriter(sourFile);
+                        BufferedWriter out = new BufferedWriter(sourFileStream);
+                        out.write(user_name + ";" + imageAddr);
+                        out.flush();
+                        out.close();
+
                     }
                 }
 
@@ -97,12 +125,15 @@ public class server_window extends JFrame {
         public String bored_name;
         public String host_ID;
         public String bored_detail;
+        public String image_addr;
         public int members = 0;
+        public HashMap<String, Integer> joinedGuys = new HashMap<>();
 
-        public BoredInfo(String _bored_name, String _host_ID, String _bored_detail) {
+        public BoredInfo(String _bored_name, String _host_ID, String _bored_detail, String _image_addr) {
             bored_name = _bored_name;
             host_ID = _host_ID;
             bored_detail = _bored_detail;
+            image_addr = _image_addr;
         }
     }
 

@@ -10,41 +10,51 @@ import javax.swing.*;
 
 public class user_profile {
     // user info
-    private String image_position = "image/default.jpg";
+    public String image_position = "image/default.jpg";
     public ImageIcon image = new ImageIcon(image_position);
-    private String ID = null;
+    public String ID = null;
     public String name = null;
 
     // profile image cut
     private final int image_width = 100;
     private final int image_height = 100;
-    public int image_cut_x1 =0;
+    public int image_cut_x1 = 0;
     public int image_cut_x2 = 100;
     public int image_cut_y1 = 0;
     public int image_cut_y2 = 100;
-    
-    
-    public user_profile(String _ID){
-        ID=_ID;
+
+    public user_profile(String _ID) {
+        ID = _ID;
         getInfo();
-        int[] ms = util.setImageCut(image,image_width,image_height);
-        image_cut_x1=ms[0];
-        image_cut_x2=ms[1];
-        image_cut_y1=ms[2];
-        image_cut_y2=ms[3];
+        image = new ImageIcon(image_position);
+        int[] ms = util.setImageCut(image, image_width, image_height);
+        image_cut_x1 = ms[0];
+        image_cut_x2 = ms[1];
+        image_cut_y1 = ms[2];
+        image_cut_y2 = ms[3];
     }
-    private void getInfo(){
-        try{
-            FileInputStream sourFile = new FileInputStream("data/"+ID+".txt");
+
+    public void changeImage(String Addr) {
+        image_position = Addr;
+        image = new ImageIcon(image_position);
+        int[] ms = util.setImageCut(image, image_width, image_height);
+        image_cut_x1 = ms[0];
+        image_cut_x2 = ms[1];
+        image_cut_y1 = ms[2];
+        image_cut_y2 = ms[3];
+    }
+
+    private void getInfo() {
+        try {
+            FileInputStream sourFile = new FileInputStream("data/" + ID + ".txt");
             InputStreamReader sourFileStream = new InputStreamReader(sourFile);
             BufferedReader in = new BufferedReader(sourFileStream);
-            String msStr= in.readLine();
+            String msStr = in.readLine();
             in.close();
-            StringTokenizer strTok = new StringTokenizer(msStr,";");
-            name=strTok.nextToken();
-            image_position=strTok.nextToken();
-        }
-        catch(IOException e){
+            StringTokenizer strTok = new StringTokenizer(msStr, ";");
+            name = strTok.nextToken();
+            image_position = strTok.nextToken();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class New_Bored extends JFrame {
     // bored_Detail_info
@@ -36,34 +37,65 @@ public class New_Bored extends JFrame {
     private final int detailInfo_width = image_size_width;
     private final int detailInfo_height = 60;
 
+    // chooseImage info
+    private String sendImageAddr = "test.png";
+    private JButton imageChoose = new JButton("change image");
+    private final int imageChoose_position_x = 10;
+    private final int imageChoose_position_y = detailInfo_y + detailInfo_height + 10;
+    private final int imageChoose_size_width = 80;
+    private final int imageChoose_size_height = 20;
     // sendBuffton info
     private JButton send = new JButton("send");
     private final int send_position_x = 200;
-    private final int send_position_y = detailInfo_y + detailInfo_height + 10;
+    private final int send_position_y = imageChoose_position_y;
     private final int send_size_width = 80;
     private final int send_size_height = 20;
 
     // hostID
-    private String host_ID="admin";
+    private String host_ID = "admin";
 
     // send
     BufferedWriter out = null;
 
-    public New_Bored(String _host_ID,BufferedWriter _out) {
+    public New_Bored(String _host_ID, BufferedWriter _out) {
         super("new Bored");
         setContentPane(new Bored_Detail_panel());
         setSize(bored_detail_width, bored_detail_height);
         addComponentListener(new force_window_size(bored_detail_width, bored_detail_height));
-        host_ID=_host_ID;
+        host_ID = _host_ID;
         out = _out;
         // add action listener for close
+        imageChoose.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser choo = new JFileChooser();
+                FileNameExtensionFilter chooFil = new FileNameExtensionFilter("jpg & PNG", "jpg", "png");
+                choo.setFileFilter(chooFil);
+                int res = choo.showOpenDialog(null);
+                if (res == JFileChooser.APPROVE_OPTION) {
+                    String sour = choo.getSelectedFile().getPath();
+                    String dest = choo.getSelectedFile().getName();
+                    sendImageAddr = dest;
+                    dest = "image/" + dest;
+                    util.copyToImageAddr(sour, dest);
+                    imageAddr = dest;
+                    image = new ImageIcon(imageAddr);
+                    repaint();
+                }
+
+            }
+
+        });
+        add(imageChoose);
+
         send.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (boredName.getText() == "" || detailInfo.getText() == "") {
 
                 } else {
-                    String msg = "newBored;" + boredName.getText() + ";" + host_ID + ";" + detailInfo.getText() + ";\n";
+                    String msg = "newBored;" + boredName.getText() + ";" + host_ID + ";" + detailInfo.getText() + ";"
+                            + sendImageAddr + ";\n";
                     try {
                         out.write(msg);
                         out.flush();
@@ -95,6 +127,12 @@ public class New_Bored extends JFrame {
             scrollDetailInfo.setLocation(detailInfo_x, detailInfo_y);
             scrollDetailInfo.setSize(detailInfo_width, detailInfo_height);
             add(scrollDetailInfo);
+
+            // image Change
+            imageChoose.setSize(imageChoose_size_width, imageChoose_size_height);
+            imageChoose.setLocation(imageChoose_position_x, imageChoose_position_y);
+
+            // send button
             send.setSize(send_size_width, send_size_height);
             send.setLocation(send_position_x, send_position_y);
 

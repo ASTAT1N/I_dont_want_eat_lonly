@@ -1,1 +1,1 @@
-master;/image/test.png
+master;image/test.png
