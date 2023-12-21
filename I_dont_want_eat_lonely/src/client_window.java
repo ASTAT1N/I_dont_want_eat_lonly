@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
+import java.util.StringTokenizer;
 
 import javax.swing.*;
 
@@ -13,15 +15,45 @@ public class client_window extends JFrame{
     // user info
     private user_profile user = null;
 
+    // window container
+    Container c =null;
+
+    // message receiver
+    private class messageReceiver extends Thread{
+        private BufferedReader in=null;
+        public messageReceiver(BufferedReader _in){
+            in=_in;
+        }
+        public void run(){
+            // receiving infos
+            try {
+                while (true) {
+                    c.add(new Bored());
+                    String msg=in.readLine();
+                    // process
+                    StringTokenizer msgToken = new StringTokenizer(msg,";");
+                    String commend = msgToken.nextToken(); 
+                    if(commend.equals("login")){
+                        // login
+                        String ID = msgToken.nextToken();
+                        String PW = msgToken.nextToken();
+                    
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+        }
+    }
     public client_window(String _ID, BufferedReader _in, BufferedWriter _out){
         // set user info
         user = new user_profile(_ID);
 
         // window setting
         setTitle(user.name);
-        System.out.println(user.name);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container c = getContentPane();
+        c = getContentPane();
         c.setLayout(new FlowLayout(FlowLayout.LEFT,30,20));
         setSize(500,550);
 
@@ -34,7 +66,7 @@ public class client_window extends JFrame{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("AAA");
+                new New_Bored();
             }
             
         });
@@ -75,11 +107,13 @@ public class client_window extends JFrame{
         setJMenuBar(mmb);
 
         // compoenet add
-        c.add(new Bored());
+
 
         // show component
         setVisible(true);
         
+        // active messageReceiver thread
+        new messageReceiver(_in).start();
     }
 
 

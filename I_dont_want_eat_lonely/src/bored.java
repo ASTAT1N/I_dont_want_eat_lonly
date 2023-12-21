@@ -40,7 +40,8 @@ public class Bored extends JPanel {
     private final int bottomGroup_size_height = 40;
     // host info
 
-    //guest info
+    // detail info
+    private String detail_data = new String("tests");
 
 
     // extraGuest info
@@ -138,7 +139,7 @@ public class Bored extends JPanel {
 
     private class Bored_Detail extends JFrame{
         // bored_Detail_info
-        private final int bored_detail_width=300;
+        private final int bored_detail_width=310;
         private final int bored_detail_height=250;
 
         // title image info
@@ -160,10 +161,18 @@ public class Bored extends JPanel {
         private final int detailInfo_width = 280;
         private final int detailInfo_height = 60;
 
+        // join info
+        private JButton join = new JButton("join");
+        private final int join_position_x = 200;
+        private final int join_position_y=detailInfo_y+detailInfo_height+10;
+        private final int join_size_width = 80;
+        private final int join_size_height = 20;
+
+
         public Bored_Detail(){
             super(title.getText());
             setContentPane(new Bored_Detail_panel());
-            setSize(bored_detail_width+10,bored_detail_height+10);
+            setSize(bored_detail_width,bored_detail_height);
             addComponentListener(new force_window_size(bored_detail_width, bored_detail_height));
         }
         private class Bored_Detail_panel extends JPanel{
@@ -171,16 +180,18 @@ public class Bored extends JPanel {
                 setPreferredSize(new Dimension(bored_detail_width,bored_detail_height));
                 setLayout(null);
                 // detail describe
-                detailInfo.setLocation(detailInfo_x, detailInfo_y);
-                detailInfo.setSize(detailInfo_width,detailInfo_height);
-                detailInfo.setText("AAA");
                 
-                //add(detailInfo);
-                //add(new JScrollPane(detailInfo));
+                detailInfo.setText(detail_data);
+                detailInfo.setEditable(false);
                 JScrollPane scrollDetailInfo = new JScrollPane(detailInfo);
                 scrollDetailInfo.setLocation(detailInfo_x, detailInfo_y);
                 scrollDetailInfo.setSize(detailInfo_width,detailInfo_height);
                 add(scrollDetailInfo);
+
+                // add joinButton
+                join.setSize(join_size_width,join_size_height);
+                join.setLocation(join_position_x, join_position_y);
+                add(join);
             }
             public void paintComponent(Graphics g) {
                 super.paintComponents(g);
