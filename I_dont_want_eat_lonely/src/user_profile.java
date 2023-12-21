@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOError;
 import java.io.IOException;
@@ -52,14 +53,10 @@ public class user_profile {
     }
     private void getInfo(){
         try{
-            FileInputStream fin = new FileInputStream("data/"+ID+".txt");
-            InputStreamReader in=new InputStreamReader(fin,"UTF-8");
-            int msC;
-            String msStr="";
-            while ((msC=in.read())!=-1) {
-                Character c = (char)msC;
-                msStr = msStr + (c.toString());
-            }
+            FileInputStream sourFile = new FileInputStream("data/"+ID+".txt");
+            InputStreamReader sourFileStream = new InputStreamReader(sourFile);
+            BufferedReader in = new BufferedReader(sourFileStream);
+            String msStr= in.readLine();
             in.close();
             StringTokenizer strTok = new StringTokenizer(msStr,";");
             name=strTok.nextToken();

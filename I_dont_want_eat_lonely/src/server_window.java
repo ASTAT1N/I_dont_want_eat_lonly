@@ -127,25 +127,16 @@ public class server_window extends JFrame {
         private String loginDataLocation = "data/login.txt";
         public LoginMenager(){
             try {
-                FileInputStream fin = new FileInputStream(loginDataLocation);
-                InputStreamReader in=new InputStreamReader(fin,"UTF-8");
-                int msC;
-                String msStr="";
+                FileInputStream sourFile = new FileInputStream(loginDataLocation);
+                InputStreamReader sourFileStream = new InputStreamReader(sourFile);
+                BufferedReader in = new BufferedReader(sourFileStream);
+                String msStr;
                 
-                while ((msC=in.read())!=-1) {
-                    Character c = (char)msC;
-                    if(c=='\n'){
-                        StringTokenizer strTok = new StringTokenizer(msStr);
-                        String ID = strTok.nextToken();
-                        String PW = strTok.nextToken();
-                        DB.put(ID, PW);
-                        
-                        msStr="";
-                    }
-                    else{
-                        msStr = msStr + (c.toString());
-
-                    }
+                while ((msStr=in.readLine())!=null) {
+                    StringTokenizer strTok = new StringTokenizer(msStr);
+                    String ID = strTok.nextToken();
+                    String PW = strTok.nextToken();
+                    DB.put(ID, PW);
                 }
                 in.close();
             } catch (IOException e) {
