@@ -131,6 +131,7 @@ public class server_window extends JFrame {
                 InputStreamReader in=new InputStreamReader(fin,"UTF-8");
                 int msC;
                 String msStr="";
+                
                 while ((msC=in.read())!=-1) {
                     Character c = (char)msC;
                     if(c=='\n'){
