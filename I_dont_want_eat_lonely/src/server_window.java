@@ -23,11 +23,12 @@ public class server_window extends JFrame {
         // IO buffers
         private BufferedReader in = null;
         private BufferedWriter out = null;
-
-        public communicateThread(Socket _socket) {
+        private Integer threadNum;
+        public communicateThread(Socket _socket, Integer num) {
             try {
                 in = new BufferedReader(new InputStreamReader(_socket.getInputStream()));
                 out = new BufferedWriter(new OutputStreamWriter(_socket.getOutputStream()));
+                threadNum = num;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -95,6 +96,7 @@ public class server_window extends JFrame {
 
             } catch (IOException e) {
                 logs.append("disconnect\n");
+                clientWriter.remove(threadNum);
                 e.printStackTrace();
                 return;
             }
@@ -107,13 +109,13 @@ public class server_window extends JFrame {
     private final int logs_height = window_height;
 
     // announce to every client
-    private Vector<BufferedWriter> clientWriter = new Vector<>();
+    private HashMap<Integer,BufferedWriter> clientWriter = new HashMap<>();
 
     private void anounce(String message) {
-        for (BufferedWriter out : clientWriter) {
+        for (Entry<Integer,BufferedWriter> out : clientWriter.entrySet()) {
             try {
-                out.write(message + "\n");
-                out.flush();
+                out.getValue().write(message + "\n");
+                out.getValue().flush();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -159,13 +161,15 @@ public class server_window extends JFrame {
         // connect
         ServerSocket listener = null;
         Socket socket = null;
+        Integer num=0;
         try {
             listener = new ServerSocket(9999);
             while (true) {
                 socket = listener.accept();
                 logs.append("Connected\n");
-                clientWriter.add(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())));
-                new communicateThread(socket).start();
+                clientWriter.put(num,new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())));
+                ++num;
+                new communicateThread(socket,num).start();
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -233,12 +237,11 @@ public class server_window extends JFrame {
         }
 
         public boolean createAccount(String _ID, String _PW) {
-            if (DB.get(_ID).equals(null)) {
+            if (!DB.get(_ID).equals(null)) {
                 return false;
             }
             DB.put(_ID, _PW);
             return true;
         }
-
     }
 }

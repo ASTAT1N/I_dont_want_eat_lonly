@@ -65,34 +65,11 @@ public class New_Bored extends JFrame {
         host_ID = _host_ID;
         out = _out;
         // add action listener for close
-        imageChoose.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JFileChooser choo = new JFileChooser();
-                FileNameExtensionFilter chooFil = new FileNameExtensionFilter("jpg & PNG", "jpg", "png");
-                choo.setFileFilter(chooFil);
-                int res = choo.showOpenDialog(null);
-                if (res == JFileChooser.APPROVE_OPTION) {
-                    String sour = choo.getSelectedFile().getPath();
-                    String dest = choo.getSelectedFile().getName();
-                    sendImageAddr = dest;
-                    dest = "image/" + dest;
-                    util.copyToImageAddr(sour, dest);
-                    imageAddr = dest;
-                    image = new ImageIcon(imageAddr);
-                    repaint();
-                }
-
-            }
-
-        });
-        add(imageChoose);
-
         send.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (boredName.getText() == "" || detailInfo.getText() == "") {
-
+                if (boredName.getText().equals("")  || detailInfo.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "please fill all field", "Fail", JOptionPane.ERROR_MESSAGE);
                 } else {
                     String msg = "newBored;" + boredName.getText() + ";" + host_ID + ";" + detailInfo.getText() + ";"
                             + sendImageAddr + ";\n";
@@ -131,6 +108,28 @@ public class New_Bored extends JFrame {
             // image Change
             imageChoose.setSize(imageChoose_size_width, imageChoose_size_height);
             imageChoose.setLocation(imageChoose_position_x, imageChoose_position_y);
+            imageChoose.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JFileChooser choo = new JFileChooser();
+                    FileNameExtensionFilter chooFil = new FileNameExtensionFilter("jpg & PNG", "jpg", "png");
+                    choo.setFileFilter(chooFil);
+                    int res = choo.showOpenDialog(null);
+                    if (res == JFileChooser.APPROVE_OPTION) {
+                        String sour = choo.getSelectedFile().getPath();
+                        String dest = choo.getSelectedFile().getName();
+                        sendImageAddr = dest;
+                        dest = "image/" + dest;
+                        util.copyToImageAddr(sour, dest);
+                        imageAddr = dest;
+                        image = new ImageIcon(imageAddr);
+                        repaint();
+                    }
+
+                }
+
+            });
+            add(imageChoose);
 
             // send button
             send.setSize(send_size_width, send_size_height);

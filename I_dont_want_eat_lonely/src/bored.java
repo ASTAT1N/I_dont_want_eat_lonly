@@ -159,11 +159,6 @@ public class Bored extends JPanel {
         g.drawImage(host.image.getImage(), host_position_x, host_position_y, host_position_x + bottomGroup_size_width,
                 host_position_y + bottomGroup_size_height,
                 host.image_cut_x1, host.image_cut_y1, host.image_cut_x2, host.image_cut_y2, this);
-        // image_cut_x1,image_cut_y1,image_cut_x2,image_cut_y2,
-
-        // host set
-
-        // guset set
 
     }
 
