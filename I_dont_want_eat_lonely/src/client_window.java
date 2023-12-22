@@ -13,10 +13,6 @@ import javax.swing.*;
 
 public class client_window extends JFrame {
 
-    static public void main(String[] args) {
-        new client_window("admin", null);
-    }
-
     // user info
     private user_profile user = null;
 
